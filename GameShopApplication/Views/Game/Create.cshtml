@@ -1,0 +1,17 @@
+﻿@model Game
+
+
+<form asp-controller="Game" asp-action="Create" method="POST">
+    <div class="form-group">
+        <label asp-for="gameName">Game Name</label>
+        <input asp-for="gameName" type="text" class="form-control mt-2">
+
+        <label asp-for="gameDescription">Game Description</label>
+        <input asp-for="gameDescription" type="text" class="form-control mt-2">
+
+        <label asp-for="gamePrice">Price</label>
+        <input asp-for="gamePrice" type="text" class="form-control mt-2">
+
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</form>

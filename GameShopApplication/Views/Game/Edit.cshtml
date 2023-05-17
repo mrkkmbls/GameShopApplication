@@ -1,0 +1,23 @@
+﻿@model Game
+<div class="col-6">
+    <h2 class="text-primary">Edit</h2>
+</div>
+<form asp-controller="Game" asp-action="Edit" method="POST">
+    <div class="form-group mt-2">
+        <label asp-for="Id"></label>
+        <input asp-for="Id" type="text" class="form-control mt-2" readonly>
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="gameName">Game Name</label>
+        <input asp-for="gameName" type="text" class="form-control mt-2">
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="gameDescription">Game Description</label>
+        <input asp-for="gameDescription" type="text" class="form-control mt-2">
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="gamePrice">Price</label>
+        <input asp-for="gamePrice" type="text" class="form-control mt-2">
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</form>

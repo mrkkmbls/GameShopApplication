@@ -18,8 +18,10 @@ namespace GameShopApplication.Data
         public async Task<Game?> CreateGame(Game newGame)
         {
             var newGameAsString = JsonConvert.SerializeObject(newGame);
-            var responseBody = new StringContent(newGameAsString, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/games", responseBody);
+            var requestBody = new StringContent(newGameAsString, Encoding.UTF8, "application/json");
+            _httpClient.DefaultRequestHeaders.Add("ApiKey", "ARandomApiKeyForGameShop");
+            _httpClient.DefaultRequestHeaders.Add("Authorization","Bearer" + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODQ0MDE1NTgsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTI2NSIsImF1ZCI6IlVzZXIifQ.atuCOwdkNlibq2MKlPoVRIawo2tps2HbOTzuL8gJCLs");
+            var response = await _httpClient.PostAsync("/games", requestBody);
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
@@ -31,6 +33,8 @@ namespace GameShopApplication.Data
 
         public async Task<List<Game>> GetAllGames()
         {
+            _httpClient.DefaultRequestHeaders.Add("ApiKey", "ARandomApiKeyForGameShop");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer" + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODQ0MDE1NTgsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTI2NSIsImF1ZCI6IlVzZXIifQ.atuCOwdkNlibq2MKlPoVRIawo2tps2HbOTzuL8gJCLs");
             var response = await _httpClient.GetAsync("/games");
             if (response.IsSuccessStatusCode)
             {

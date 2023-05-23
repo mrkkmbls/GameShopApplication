@@ -8,11 +8,15 @@ namespace GameShopApplication.Data
     {
         private readonly HttpClient _httpClient;
 
+        //paste the generated jwt token here to work the web app CRUD
+        string jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODQ3NDEwNDcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTI2NSIsImF1ZCI6IlVzZXIifQ.lhf6gP6PVcOzbA1F4UoDk2KHoqk4pwNcFzIh6BhfM20";
+
         public GamesRepository()
         {
             _httpClient = new HttpClient();
 
             _httpClient.BaseAddress = new Uri("http://localhost:5265");
+
         }
 
         public async Task<Game?> CreateGame(Game newGame)
@@ -20,7 +24,7 @@ namespace GameShopApplication.Data
             var newGameAsString = JsonConvert.SerializeObject(newGame);
             var requestBody = new StringContent(newGameAsString, Encoding.UTF8, "application/json");
             _httpClient.DefaultRequestHeaders.Add("ApiKey", "ARandomApiKeyForGameShop");
-            _httpClient.DefaultRequestHeaders.Add("Authorization","Bearer" + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODQ0MDE1NTgsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTI2NSIsImF1ZCI6IlVzZXIifQ.atuCOwdkNlibq2MKlPoVRIawo2tps2HbOTzuL8gJCLs");
+            _httpClient.DefaultRequestHeaders.Add("Authorization","Bearer " + jwtToken);
             var response = await _httpClient.PostAsync("/games", requestBody);
             if (response.IsSuccessStatusCode)
             {
@@ -34,7 +38,7 @@ namespace GameShopApplication.Data
         public async Task<List<Game>> GetAllGames()
         {
             _httpClient.DefaultRequestHeaders.Add("ApiKey", "ARandomApiKeyForGameShop");
-            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer" + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODQ0MDE1NTgsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTI2NSIsImF1ZCI6IlVzZXIifQ.atuCOwdkNlibq2MKlPoVRIawo2tps2HbOTzuL8gJCLs");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + jwtToken);
             var response = await _httpClient.GetAsync("/games");
             if (response.IsSuccessStatusCode)
             {
@@ -48,6 +52,8 @@ namespace GameShopApplication.Data
 
         public async Task<Game?> GetGameById(int gameId)
         {
+            _httpClient.DefaultRequestHeaders.Add("ApiKey", "ARandomApiKeyForGameShop");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + jwtToken);
             var response = await _httpClient.GetAsync($"/games/{gameId}");
             if (response.IsSuccessStatusCode)
             {
@@ -63,8 +69,11 @@ namespace GameShopApplication.Data
 
         public async Task<Game?> UpdateGame(int gameId, Game updatedGame)
         {
+
             var newTodoAsString = JsonConvert.SerializeObject(updatedGame);
             var responseBody = new StringContent(newTodoAsString, Encoding.UTF8, "application/json");
+            _httpClient.DefaultRequestHeaders.Add("ApiKey", "ARandomApiKeyForGameShop");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + jwtToken);
             var response = await _httpClient.PutAsync($"/games/{gameId}", responseBody);
             if (response.IsSuccessStatusCode)
             {
@@ -78,11 +87,10 @@ namespace GameShopApplication.Data
 
 
 
-
-
-
         public async Task DeleteGame(int gameId)
         {
+             _httpClient.DefaultRequestHeaders.Add("ApiKey", "ARandomApiKeyForGameShop");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + jwtToken);
             var response = await _httpClient.DeleteAsync($"/games/{gameId}");
             if (response.IsSuccessStatusCode)
             {
